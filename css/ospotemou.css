@@ -91,7 +91,7 @@ table {
   margin-left: auto;
 }
 .aboutImg{
-  padding-right:105px;
+    width:80%;
 }
 
 @media (min-width: 576px) {
@@ -574,10 +574,8 @@ table {
   }
 }
 
-.w-100 {
-  width: 100% !important;
-}
 .ml-auto,
+
 .mx-auto {
   margin-left: auto !important;
 }
@@ -681,7 +679,7 @@ p
 
 
 .box {
-  background: #fff;
+  background: #FFF0F3;
   border-radius: 0.15rem;
   display: -webkit-box;
   display: -webkit-flex;
