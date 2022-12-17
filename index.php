@@ -34,13 +34,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/pages/album.php">Albums</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/pages/artist.php">Artists</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -59,11 +52,23 @@
 <!-- Box -->
 <div class="box text-center">
     <div class="box-item">
-        <img  class="image" src="imgs/notes.png">
-        <h6 class="box-title">Categories</h6>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis excepturi, repellat esse laborum explicabo quia.</p>
-    </div>
+        <h2 class="cat-title"><b>Categories</b></h2>
+        <h6>Choose one</h6>
+        <table class="categories">
+            <tr>
+                <td> <a href="pages/album.php?category=pop">pop</a> </td>
+                <td><a href="pages/album.php?category=rap">rap</a></td>
+                <td><a href="pages/album.php?category=rock">rock</a></td>
+                <td><a href="pages/album.php?category=alternative">alternative</a></td>
+            </tr>
+            <tr>
+                <td><a href="pages/album.php?category=metal">metal</a></td>
+                <td><a href="pages/album.php?category=polish_rock">polish rock</a></td>
+                <td><a href="pages/album.php?category=godlike" style="color:goldenrod;">GodLike</a></td>
+            </tr>
+        </table>
 
+    </div>
 </div>
 <!-- End of Box -->
 
@@ -72,14 +77,12 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-5 col-lg-4">
-                <img src="imgs/about.jpg" alt="About image" class="w-100 img-thumbnail mb-3">
+                <img src="imgs/about.jpg" alt="About image" class="w-100 img-thumbnail mb-3 aboutImg">
             </div>
             <div class="col-md-7 col-lg-8">
-                <h6 class="section-subtitle mb-0">We Create</h6>
-                <h6 class="section-title mb-3">Awesome Work</h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente cupiditate quas, amet harum perferendis minus, cum dolorum obcaecati iste aspernatur voluptatum aut.</p>
-                <p>Cum laudantium unde nemo doloribus eligendi quodarum ea vitae dicta. Accusantium vero, ea? Alias, atque libero. Id, ut harum. </p>
-                <p>consectetur adipisicing elit. Omnis quidem, quos iure a dolorum illum culpa quia nemo soluta, ratione harum beatae minus doloribus consectetur! Similique tempora sunt doloribus molestias.</p>
+                <h6 class="section-subtitle mb-0">You demand</h6>
+                <h6 class="section-title mb-3">We Create</h6>
+                <p>You speak, we listen! Our priority is to make you happy. A small team but with 10 times the will.</p>
             </div>
         </div>
     </div>
@@ -89,26 +92,8 @@
 <!-- About Section with bg -->
 <section class="has-bg-img py-md">
     <div class="container text-center">
-        <h6 class="section-subtitle">We See</h6>
-        <h6 class="section-title mb-6">What Other Don't See.</h6>
-        <div class="widget mb-4">
-            <div class="widget-item">
-                <i class="ti-notepad"></i>
-                <h4>Planning</h4>
-            </div>
-            <div class="widget-item">
-                <i class="ti-layout"></i>
-                <h4>Mockup</h4>
-            </div>
-            <div class="widget-item">
-                <i class="ti-filter"></i>
-                <h4>Develope</h4>
-            </div>
-            <div class="widget-item">
-                <i class="ti-thumb-up"></i>
-                <h4>Provide</h4>
-            </div>
-        </div>
+        <h6 class="section-subtitle">We Hear</h6>
+        <h6 class="section-title mb-6">What Other Don't hear.</h6>
     </div>
 </section>
 </body>
