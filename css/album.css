@@ -1,0 +1,11 @@
+body{
+    background-image: url("../imgs/album-background.jpg");
+    background-size: cover;
+}
+
+.container{
+    padding-left:10%;
+    padding-right:10%;
+    margin-top:15%;
+    background-color: #fff0f3;
+}

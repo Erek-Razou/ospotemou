@@ -1,21 +1,14 @@
 <?php
 ?><!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with Creative Studio landing page.">
-    <meta name="author" content="Devcrud">
     <title>Ospotemou</title>
 
-    <!-- font icons -->
-    <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
-
-    <!-- Bootstrap + Creative Studio main styles -->
     <link rel="stylesheet" href="css/ospotemou.css">
 
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<body id="home">
 
 <!-- Page Navigation -->
 <nav class="navbar custom-navbar navbar-expand-lg navbar-dark" data-spy="affix" data-offset-top="20">
@@ -59,7 +52,7 @@
                 <td> <a href="pages/album.php?category=pop">pop</a> </td>
                 <td><a href="pages/album.php?category=rap">rap</a></td>
                 <td><a href="pages/album.php?category=rock">rock</a></td>
-                <td><a href="pages/album.php?category=alternative">alternative</a></td>
+                <td class ="alternative"><a href="pages/album.php?category=alternative">alternative</a></td>
             </tr>
             <tr>
                 <td><a href="pages/album.php?category=metal">metal</a></td>
@@ -67,7 +60,6 @@
                 <td><a href="pages/album.php?category=godlike" style="color:goldenrod;">GodLike</a></td>
             </tr>
         </table>
-
     </div>
 </div>
 <!-- End of Box -->
@@ -76,12 +68,12 @@
 <section id="about">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-5 col-lg-4">
-                <img src="imgs/about.jpg" alt="About image" class="w-100 img-thumbnail mb-3 aboutImg">
+            <div class="aboutImageDiv">
+                <img src="imgs/about.jpg" alt="About image" class="img-thumbnail aboutImg">
             </div>
             <div class="col-md-7 col-lg-8">
-                <h6 class="section-subtitle mb-0">You demand</h6>
-                <h6 class="section-title mb-3">We Create</h6>
+                <h6 class="section-subtitle">You demand</h6>
+                <h6 class="section-title ">We Create</h6>
                 <p>You speak, we listen! Our priority is to make you happy. A small team but with 10 times the will.</p>
             </div>
         </div>
