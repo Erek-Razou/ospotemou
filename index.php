@@ -52,7 +52,6 @@
                 <td> <a href="pages/album.php?category=pop">pop</a> </td>
                 <td><a href="pages/album.php?category=rap">rap</a></td>
                 <td><a href="pages/album.php?category=rock">rock</a></td>
-                <td class ="alternative"><a href="pages/album.php?category=alternative">alternative</a></td>
             </tr>
             <tr>
                 <td><a href="pages/album.php?category=metal">metal</a></td>

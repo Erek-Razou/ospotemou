@@ -2,9 +2,20 @@
 require_once('../include/config.php');
 $category=$_GET['category'];
 
-$query=mysqli_query($sql,'SELECT * FROM album 
+$filters="";
+if(isset($_POST['filters'])) {
+    $filters = $_POST['filters'];
+}
+if(!empty($filters)) {
+    $query=mysqli_query($sql,'SELECT * FROM album 
+                                JOIN genre ON genre.id=album.genre_id
+                                WHERE genre.name="' .$category .'" ORDER BY release_date "'.$filters.'"');
+         }
+else {
+    $query=mysqli_query($sql,'SELECT * FROM album 
                                 JOIN genre ON genre.id=album.genre_id
                                 WHERE genre.name="' .$category .'"');
+}
 $row=mysqli_fetch_all($query);
 $albumTitle=array();
 $albumReleaseDate = array();
@@ -14,6 +25,7 @@ for($i=0;$i<sizeof($row);$i++){
     $albumReleaseDate[$i]=$row[$i][4];
     $albumImagePath[$i]=$row[$i][5];
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,8 +38,19 @@ for($i=0;$i<sizeof($row);$i++){
 
 <h1>This is the album page</h1>
 <div class="container">
+    <div class="filters">
+        <form action="#" method="post">
+            <select name="filters">
+                <option value="" selected="selected">Any</option>
+                <option value="ASC">Release Date ↑</option>
+                <option value="DESC">Release Date ↓</option>
+            </select>
+            <input name="search" type="submit" value="Search"/>
+        </form>
+    </div>
     <table >
             <?php
+            var_dump($filters);
              for($i=0;$i<sizeof($albumTitle);$i+=2){
                  echo "<tr>";
                  echo "<td><a href='songs.php?album=$albumTitle[$i]'> <img src='$albumImagePath[$i]'></a></br> 
