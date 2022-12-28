@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>This is the artist page motherfucker</h1>
+<h1>This is the song page motherfucker</h1>
 
 </body>
 </html>
