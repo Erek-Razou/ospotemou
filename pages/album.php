@@ -1,20 +1,37 @@
 <?php
 require('../include/config.php');
 $category=$_GET['category'];
+
+$query=mysqli_query($sql,'SELECT artist.name FROM artist
+                                JOIN album ON album.artist_id= artist.id
+                                JOIN genre ON album.genre_id=genre.id
+                                WHERE genre.name="' .$category.'"');
+$row=mysqli_fetch_all($query);
+$artistNames=array();
+for($i=1;$i<sizeof($row);$i++){
+    $artistNames[$i]=$row[$i];
+
+}
+
+
+$artist="";
 $filters="";
 if(isset($_POST['filters'])) {
     $filters = $_POST['filters'];
+    $artist = $_POST['artist'];
 }
-if(!empty($filters)) {
+if(!empty($artist) || !empty($filters)){
     $query=mysqli_query($sql,'SELECT * FROM album
-                                JOIN genre ON genre.id=album.genre_id
-                                WHERE genre.name="' .$category .'" ORDER BY release_date '.$filters.' ');
+                                    JOIN genre ON genre.id=album.genre_id
+                                    JOIN artist ON artist.id=album.artist_id
+                                    WHERE genre.name="' .$category .'" AND artist.name="' .$artist.'"ORDER BY release_date '.$filters.' ');
 }
-else {
-    $query=mysqli_query($sql,'SELECT * FROM album
-                                JOIN genre ON genre.id=album.genre_id
-                                WHERE genre.name="' .$category .'"');
+else{
+        $query=mysqli_query($sql,'SELECT * FROM album
+                                    JOIN genre ON genre.id=album.genre_id
+                                    WHERE genre.name="' .$category .'"');
 }
+
 $row=mysqli_fetch_all($query);
 $albumTitle=array();
 $albumReleaseDate = array();
@@ -39,6 +56,12 @@ for($i=0;$i<sizeof($row);$i++){
 <div class="container">
     <div class="filters">
         <form action="#" method="post">
+            <select name="artist">
+                <option value="" selected="selected">Any</option>
+                <?php for($i=1;$i<sizeof($artistNames);$i++){ ?>
+                    <option value="<?=implode( ", ", $artistNames[$i] )?>" ><?=implode( ", ", $artistNames[$i] )?></option>
+                <?php } ?>
+            </select>
             <select name="filters">
                 <option value="" selected="selected">Any</option>
                 <option value="ASC">Release Date ↑</option>
