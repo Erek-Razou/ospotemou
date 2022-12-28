@@ -2,7 +2,7 @@
 require('../include/config.php');
 $category=$_GET['category'];
 
-$query=mysqli_query($sql,'SELECT artist.name FROM artist
+$query=mysqli_query($sql,'SELECT DISTINCT artist.name FROM artist
                                 JOIN album ON album.artist_id= artist.id
                                 JOIN genre ON album.genre_id=genre.id
                                 WHERE genre.name="' .$category.'"');
