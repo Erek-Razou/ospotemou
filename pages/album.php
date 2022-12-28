@@ -52,7 +52,26 @@ for($i=0;$i<sizeof($row);$i++){
 </head>
 <body>
 
-<div class="container">
+<div class="container header">
+    <div class="row border border-white rounded">
+        <div class="col-3">
+            <img class="logo" src="../imgs/logo.png" alt="Company Logo">
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-2">
+            <p class="items"><a href="../index.php#home">Home</a> </p>
+        </div>
+        <div class="col-2">
+            <p class="items"><a href="../index.php#about">About</a> </p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container albums">
+    <h1 align="center"><?=strtoupper($category)?> Albums</h1>
     <div class="filters">
         </br></br>
         <h3 align="left">Filters</h3>
@@ -71,7 +90,7 @@ for($i=0;$i<sizeof($row);$i++){
             <input name="search" type="submit" value="Search"/>
         </form>
     </div>
-    </br></br></br></br>
+    </br></br>
     <?php
     for($i=0;$i<sizeof($albumTitle);$i+=2){?>
         <div class="row">

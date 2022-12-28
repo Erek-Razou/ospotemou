@@ -16,9 +16,6 @@
         <a class="navbar-brand" href="#">
             <img src="imgs/logo.png" alt="Company Logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span></span>
-        </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">

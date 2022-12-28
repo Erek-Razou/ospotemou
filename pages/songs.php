@@ -42,7 +42,23 @@ $totalDurationAll=gmdate("H:i:s", $totalDuration);
 
 <body>
 
-<div class="container">
+<div class="container header">
+    <div class="row border border-white rounded">
+        <div class="col-3">
+            <img class="logo" src="../imgs/logo.png" alt="Company Logo">
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-2">
+            <p class="items"><a href="../index.php#home">Home</a> </p>
+        </div>
+        <div class="col-2">
+            <p class="items"><a href="../index.php#about">About</a> </p>
+        </div>
+    </div>
+</div>
+
+<div class="container containerSongs">
     <h1 align="center"><?=$album ?></h1>
     </br>  </br>
   <div class="row">
