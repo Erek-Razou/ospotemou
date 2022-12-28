@@ -1,18 +1,17 @@
 <?php
-require_once('../include/config.php');
+require('../include/config.php');
 $category=$_GET['category'];
-
 $filters="";
 if(isset($_POST['filters'])) {
     $filters = $_POST['filters'];
 }
 if(!empty($filters)) {
-    $query=mysqli_query($sql,'SELECT * FROM album 
+    $query=mysqli_query($sql,'SELECT * FROM album
                                 JOIN genre ON genre.id=album.genre_id
-                                WHERE genre.name="' .$category .'" ORDER BY release_date "'.$filters.'"');
-         }
+                                WHERE genre.name="' .$category .'" ORDER BY release_date '.$filters.' ');
+}
 else {
-    $query=mysqli_query($sql,'SELECT * FROM album 
+    $query=mysqli_query($sql,'SELECT * FROM album
                                 JOIN genre ON genre.id=album.genre_id
                                 WHERE genre.name="' .$category .'"');
 }
@@ -50,7 +49,6 @@ for($i=0;$i<sizeof($row);$i++){
     </div>
     <table >
             <?php
-            var_dump($filters);
              for($i=0;$i<sizeof($albumTitle);$i+=2){
                  echo "<tr>";
                  echo "<td><a href='songs.php?album=$albumTitle[$i]'> <img src='$albumImagePath[$i]'></a></br> 
