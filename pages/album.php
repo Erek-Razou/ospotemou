@@ -53,7 +53,7 @@ for($i=0;$i<sizeof($row);$i++){
 <body>
 
 <div class="container header">
-    <div class="row border border-white rounded">
+    <div class="row border  border-white rounded">
         <div class="col-3">
             <img class="logo" src="../imgs/logo.png" alt="Company Logo">
         </div>

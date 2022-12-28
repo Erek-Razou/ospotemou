@@ -24,6 +24,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/admin.php">Admin</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -38,7 +42,6 @@
     </div>
 </header>
 <!-- End Of Page Header -->
-
 <!-- Box -->
 <div class="box text-center">
     <div class="box-item">

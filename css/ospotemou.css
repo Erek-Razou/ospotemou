@@ -52,6 +52,7 @@ td {
   padding: 50px;
 }
 
+
 body {
   margin: 0;
   font-family: "Fira Sans", sans-serif;
@@ -364,7 +365,7 @@ table {
 
 
 .box {
-  background: #FFF0F3;
+  background: #FEFBF6;
   border-radius: 0.15rem;
   display: -webkit-box;
   display: -webkit-flex;
