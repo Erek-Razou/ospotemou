@@ -2,6 +2,7 @@
 require('../include/config.php');
 $category=$_GET['category'];
 
+// Query for the artist options in the filter's select
 $query=mysqli_query($sql,'SELECT DISTINCT artist.name FROM artist
                                 JOIN album ON album.artist_id= artist.id
                                 JOIN genre ON album.genre_id=genre.id
@@ -14,32 +15,37 @@ for($i=1;$i<sizeof($row);$i++){
 }
 
 
-$artist="";
-$filters="";
-if(isset($_POST['filters'])) {
-    $filters = $_POST['filters'];
-    $artist = $_POST['artist'];
-}
-if(!empty($artist) || !empty($filters)){
-    $query=mysqli_query($sql,'SELECT * FROM album
-                                    JOIN genre ON genre.id=album.genre_id
-                                    JOIN artist ON artist.id=album.artist_id
-                                    WHERE genre.name="' .$category .'" AND artist.name="' .$artist.'"ORDER BY release_date '.$filters.' ');
-}
-else{
-        $query=mysqli_query($sql,'SELECT * FROM album
-                                    JOIN genre ON genre.id=album.genre_id
-                                    WHERE genre.name="' .$category .'"');
+// Filtered query for albums to display
+$filterArtistName = null;
+if (isset($_POST['artist'])) {
+    $filterArtistName = $_POST['artist'];
 }
 
-$row=mysqli_fetch_all($query);
-$albumTitle=array();
-$albumReleaseDate = array();
-$albumImagePath= array();
-for($i=0;$i<sizeof($row);$i++){
-    $albumTitle[$i]=$row[$i][3];
-    $albumReleaseDate[$i]=$row[$i][4];
-    $albumImagePath[$i]=$row[$i][5];
+$dateSort = "ASC";
+if (isset($_POST['dateSort'])) {
+    $dateSort = $_POST['dateSort'];
+}
+
+$query = "SELECT album.name, album.release_date, album.image_path
+          FROM genre
+          JOIN album ON genre.id = album.genre_id
+          JOIN artist a ON album.artist_id = a.id
+          WHERE genre.name LIKE '$category'";
+if ($filterArtistName != null) {
+    $query .= " AND a.name LIKE '$filterArtistName'";
+}
+$query .= " ORDER BY album.release_date $dateSort";
+$results = mysqli_query($sql, $query);
+
+$albumTitles = array();
+$albumReleaseDates = array();
+$albumImagePaths = array();
+
+$rows = mysqli_fetch_all($results);
+foreach ($rows as $row) {
+    $albumTitles[] = $row[0];
+    $albumReleaseDates[] = $row[1];
+    $albumImagePaths[] = $row[2];
 }
 
 ?>
@@ -82,7 +88,7 @@ for($i=0;$i<sizeof($row);$i++){
                     <option value="<?=implode( ", ", $artistNames[$i] )?>" ><?=implode( ", ", $artistNames[$i] )?></option>
                 <?php } ?>
             </select>
-            <select name="filters">
+            <select name="dateSort">
                 <option value="" selected="selected">By Release Date</option>
                 <option value="ASC">Release Date ↑</option>
                 <option value="DESC">Release Date ↓</option>
@@ -92,15 +98,15 @@ for($i=0;$i<sizeof($row);$i++){
     </div>
     </br></br>
     <?php
-    for($i=0;$i<sizeof($albumTitle);$i+=2){?>
+    for($i=0;$i<sizeof($albumTitles);$i+=2){?>
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6 ">
-                 <a href='songs.php?album=<?=$albumTitle[$i]?>' > <img src='<?=$albumImagePath[$i]?>'></a></br>
-                  <span class='albumTitle'><?=$albumTitle[$i]?></span> </br><span class='albumReleaseDate'><?=$albumReleaseDate[$i] ?></span>
+                 <a href='songs.php?album=<?=$albumTitles[$i]?>' > <img src='<?=$albumImagePaths[$i]?>'></a></br>
+                  <span class='albumTitle'><?=$albumTitles[$i]?></span> </br><span class='albumReleaseDate'><?=$albumReleaseDates[$i] ?></span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6">
-            <a href='songs.php?album=<?=$albumTitle[$i+1]?>'> <img src='<?=$albumImagePath[$i+1]?>'/></a></br> <span class='albumTitle'><?=$albumTitle[$i+1]?></span>
-                </br><span class='albumReleaseDate'><?=$albumReleaseDate[$i+1]?></span>
+            <a href='songs.php?album=<?=$albumTitles[$i+1]?>'> <img src='<?=$albumImagePaths[$i+1]?>'/></a></br> <span class='albumTitle'><?=$albumTitles[$i+1]?></span>
+                </br><span class='albumReleaseDate'><?=$albumReleaseDates[$i+1]?></span>
             </div>
         </div>
         <?php }?>
