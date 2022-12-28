@@ -44,7 +44,7 @@ for($i=0;$i<sizeof($row);$i++){
 
 ?>
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Album</title>
@@ -52,37 +52,40 @@ for($i=0;$i<sizeof($row);$i++){
 </head>
 <body>
 
-<h1>This is the album page</h1>
 <div class="container">
     <div class="filters">
+        </br></br>
+        <h3 align="left">Filters</h3>
         <form action="#" method="post">
             <select name="artist">
-                <option value="" selected="selected">Any</option>
+                <option value="" selected="selected">By Artist</option>
                 <?php for($i=1;$i<sizeof($artistNames);$i++){ ?>
                     <option value="<?=implode( ", ", $artistNames[$i] )?>" ><?=implode( ", ", $artistNames[$i] )?></option>
                 <?php } ?>
             </select>
             <select name="filters">
-                <option value="" selected="selected">Any</option>
+                <option value="" selected="selected">By Release Date</option>
                 <option value="ASC">Release Date ↑</option>
                 <option value="DESC">Release Date ↓</option>
             </select>
             <input name="search" type="submit" value="Search"/>
         </form>
     </div>
-    <table >
-            <?php
-             for($i=0;$i<sizeof($albumTitle);$i+=2){
-                 echo "<tr>";
-                 echo "<td><a href='songs.php?album=$albumTitle[$i]'> <img src='$albumImagePath[$i]'></a></br> 
-                 <span class='albumTitle'>$albumTitle[$i]</span> </br><span class='albumReleaseDate'> $albumReleaseDate[$i] </span></td>";
-                 echo "<td><a href='songs.php?album=" .$albumTitle[$i+1]."'> <img src='" .$albumImagePath[$i+1]. "'/></a></br> <span class='albumTitle'>" .$albumTitle[$i+1]. " </span></br><span class='albumReleaseDate'>" .$albumReleaseDate[$i+1]. "</span></td>";
-                 echo "</tr>";
-             }
-            ?>
-    </table>
+    </br></br></br></br>
+    <?php
+    for($i=0;$i<sizeof($albumTitle);$i+=2){?>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 ">
+                 <a href='songs.php?album=<?=$albumTitle[$i]?>' > <img src='<?=$albumImagePath[$i]?>'></a></br>
+                  <span class='albumTitle'><?=$albumTitle[$i]?></span> </br><span class='albumReleaseDate'><?=$albumReleaseDate[$i] ?></span>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+            <a href='songs.php?album=<?=$albumTitle[$i+1]?>'> <img src='<?=$albumImagePath[$i+1]?>'/></a></br> <span class='albumTitle'><?=$albumTitle[$i+1]?></span>
+                </br><span class='albumReleaseDate'><?=$albumReleaseDate[$i+1]?></span>
+            </div>
+        </div>
+        <?php }?>
 </div>
-
 
 </body>
 </html>

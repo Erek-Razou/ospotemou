@@ -1,0 +1,19 @@
+body{
+    background-image: url("../imgs/song_background.jpg");
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+.container{
+    padding-left:15%;
+    padding-right:20%;
+    margin-top:15%;
+    background-color: #fff0f3;
+}
+.songs {
+    border: 3px solid;
+}
+
+h1{
+    font-size: 70px;
+}
