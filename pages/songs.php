@@ -2,26 +2,28 @@
 require_once('../include/config.php');
 $album=$_GET['album'];
 
-$query=mysqli_query($sql,'SELECT * FROM album
+$query=mysqli_query($sql,"SELECT album.image_path, artist.name
+                                FROM album
                                 JOIN artist ON artist.id=album.artist_id
-                                WHERE album.name="'.$album.'"');
-$row=mysqli_fetch_all($query);
-$albumImage=$row[0][5];
-$albumArtist=$row[0][7];
+                                WHERE album.name='$album'");
+$rows=mysqli_fetch_row($query);
+$albumImage=$rows[0];
+$albumArtist=$rows[1];
 
 
-$query=mysqli_query($sql,'SELECT * FROM song
+$query=mysqli_query($sql,"SELECT song.name, song.duration
+                                FROM song
                                 JOIN album ON album.id=song.album_id
-                                WHERE album.name="'.$album.'"');
-$row=mysqli_fetch_all($query);
-$songName=array();
-$songDuration=array();
+                                WHERE album.name='$album'");
+$rows=mysqli_fetch_all($query);
+$songNames=array();
+$songDurations=array();
 $totalDuration=0;
 
-for($i=0;$i<sizeof($row);$i++){
-    $songName[$i]=$row[$i][2];
-    $songDuration[$i]= $row[$i][3];
-    $totalDuration += $songDuration[$i];
+for($i=0; $i<sizeof($rows); $i++){
+    $songNames[$i]=$rows[$i][0];
+    $songDurations[$i]= $rows[$i][1];
+    $totalDuration += $songDurations[$i];
 }
 
 $totalDurationAll=gmdate("H:i:s", $totalDuration);
@@ -35,7 +37,7 @@ $totalDurationAll=gmdate("H:i:s", $totalDuration);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page Title</title>
+    <title><?= $albumArtist." - ".$album ?></title>
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/song.css">
@@ -63,7 +65,7 @@ $totalDurationAll=gmdate("H:i:s", $totalDuration);
     </br>  </br>
   <div class="row">
       <div class="col-sm-12 col-md-6 col-lg-6 ">
-          <img class="albumImage" src="<?=$albumImage?>"/>
+          <img class="albumImage w-100" src="<?=$albumImage?>"/>
       </div>
 
       <div class="col-sm-12 col-md-6 col-lg-6 ">
@@ -82,13 +84,13 @@ $totalDurationAll=gmdate("H:i:s", $totalDuration);
         </div>
     </div>
     <?php
-    for($i=0;$i<sizeof($songName);$i++){?>
+    for($i=0; $i<sizeof($songNames); $i++){?>
     <div class="row songs">
         <div class="col-6">
-            <p><?=$songName[$i]?></p>
+            <p><?=$songNames[$i]?></p>
         </div>
         <div class="col-6">
-            <p><?=gmdate("H:i:s", $songDuration[$i])?></p>
+            <p><?=gmdate("H:i:s", $songDurations[$i])?></p>
         </div>
     </div>
     <?php } ?>
