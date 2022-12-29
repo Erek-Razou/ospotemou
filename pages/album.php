@@ -1,17 +1,16 @@
 <?php
 require('../include/config.php');
-$category=$_GET['category'];
+$category = $_GET['category'];
 
 // Query for the artist options in the filter's select
-$query=mysqli_query($sql,'SELECT DISTINCT artist.name FROM artist
-                                JOIN album ON album.artist_id= artist.id
-                                JOIN genre ON album.genre_id=genre.id
-                                WHERE genre.name="' .$category.'"');
-$row=mysqli_fetch_all($query);
-$artistNames=array();
-for($i=1;$i<sizeof($row);$i++){
-    $artistNames[$i]=$row[$i];
-
+$query = mysqli_query($sql, "SELECT DISTINCT artist.name FROM artist
+                                   JOIN album ON album.artist_id= artist.id
+                                   JOIN genre ON album.genre_id=genre.id
+                                   WHERE genre.name='$category'");
+$rows = mysqli_fetch_all($query);
+$artistNames = array();
+for ($i = 1; $i < sizeof($rows); $i++) {
+    $artistNames[$i] = $rows[$i];
 }
 
 
@@ -26,13 +25,14 @@ if (isset($_POST['dateSort'])) {
     $dateSort = $_POST['dateSort'];
 }
 
-$query = "SELECT album.name, album.release_date, album.image_path
+$query = "SELECT album.name, album.release_date, album.image_path,
+                 artist.name
           FROM genre
           JOIN album ON genre.id = album.genre_id
-          JOIN artist a ON album.artist_id = a.id
+          JOIN artist ON album.artist_id = artist.id
           WHERE genre.name LIKE '$category'";
 if ($filterArtistName != null) {
-    $query .= " AND a.name LIKE '$filterArtistName'";
+    $query .= " AND artist.name LIKE '$filterArtistName'";
 }
 $query .= " ORDER BY album.release_date $dateSort";
 $results = mysqli_query($sql, $query);
@@ -40,20 +40,23 @@ $results = mysqli_query($sql, $query);
 $albumTitles = array();
 $albumReleaseDates = array();
 $albumImagePaths = array();
+$albumArtists = array();
 
 $rows = mysqli_fetch_all($results);
 foreach ($rows as $row) {
     $albumTitles[] = $row[0];
     $albumReleaseDates[] = $row[1];
     $albumImagePaths[] = $row[2];
+    $albumArtists[] = $row[3];
 }
 
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Album</title>
+    <title><?= strtoupper($category) ?> Albums</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/album.css">
 </head>
 <body>
@@ -98,18 +101,19 @@ foreach ($rows as $row) {
     </div>
     </br></br>
     <?php
-    for($i=0;$i<sizeof($albumTitles);$i+=2){?>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6 ">
-                 <a href='songs.php?album=<?=$albumTitles[$i]?>' > <img src='<?=$albumImagePaths[$i]?>'></a></br>
-                  <span class='albumTitle'><?=$albumTitles[$i]?></span> </br><span class='albumReleaseDate'><?=$albumReleaseDates[$i] ?></span>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
-            <a href='songs.php?album=<?=$albumTitles[$i+1]?>'> <img src='<?=$albumImagePaths[$i+1]?>'/></a></br> <span class='albumTitle'><?=$albumTitles[$i+1]?></span>
-                </br><span class='albumReleaseDate'><?=$albumReleaseDates[$i+1]?></span>
-            </div>
-        </div>
-        <?php }?>
+    echo "<div class='row'>";
+    for ($i = 0; $i < sizeof($albumTitles); $i++) {
+        echo "<div class='col-md-6 mb-4'>
+                  <a href='songs.php?album=" . $albumTitles[$i] . "'>
+                      <img class='w-100' src='" . $albumImagePaths[$i] . "'/>
+                      <span class='albumTitle'>" . $albumTitles[$i] . "</span> <br/>
+                      <span class='albumReleaseDate'>" . $albumReleaseDates[$i] . "</span> <br/>
+                      <span class='artistName'>" . $albumArtists[$i] . "</span>
+                  </a>
+              </div>";
+    }
+    echo "</div>";
+    ?>
 </div>
 
 </body>
