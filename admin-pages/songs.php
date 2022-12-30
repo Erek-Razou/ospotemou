@@ -111,7 +111,7 @@ for($i=0; $i<sizeof($row); $i++){
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../index.php"
                            aria-expanded="false">
-                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <i aria-hidden="true"></i>
                             <span class="hide-menu">Home</span>
                         </a>
                     </li>
@@ -172,10 +172,10 @@ for($i=0; $i<sizeof($row); $i++){
                                 <thead>
                                 <tr>
                                     <th class="border-top-0">#</th>
-                                    <th class="border-top-0">Song Name</th>
-                                    <th class="border-top-0">Song Duration</th>
-                                    <th class="border-top-0">Song Position</th>
-                                    <th class="border-top-0">Song Youtube Id</th>
+                                    <th class="border-top-0"> Name</th>
+                                    <th class="border-top-0"> Duration</th>
+                                    <th class="border-top-0"> Position</th>
+                                    <th class="border-top-0"> Youtube Id</th>
                                 </tr>
                                 </thead>
                                 <tbody>

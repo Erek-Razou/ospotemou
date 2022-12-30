@@ -22,7 +22,7 @@ $categoryName=$row;
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Songs-Admin</title>
+    <title>Edit-<?=$categoryName?></title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../plugins/images/favicon.png">

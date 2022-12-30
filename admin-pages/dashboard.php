@@ -1,9 +1,6 @@
 <?php
 session_start();
 require('../include/config.php');
-if (!isset($_SESSION['id'])) {
-    header("Location: ../pages/admin-login.php");
-}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +82,7 @@ if (!isset($_SESSION['id'])) {
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../index.php"
                                aria-expanded="false">
-                                <i class="fa fa-table" aria-hidden="true"></i>
+                                <i  aria-hidden="true"></i>
                                 <span class="hide-menu">Home</span>
                             </a>
                         </li>
@@ -110,6 +107,22 @@ if (!isset($_SESSION['id'])) {
             </div>
             <!-- End Sidebar scroll-->
         </aside>
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="white-box">
+                        <h1 align="center">Welcome Admin!</h1>
+                        </br>  </br>  </br>    </br>  </br>  </br>
+
+
+                        <h2 align="center">Choose your category-to-manage from the side panel!</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
