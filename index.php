@@ -26,7 +26,7 @@
                     <a class="nav-link" href="#about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/pages/admin.php">Admin</a>
+                    <a class="nav-link" href="/pages/admin-login.php">Admin</a>
                 </li>
             </ul>
         </div>

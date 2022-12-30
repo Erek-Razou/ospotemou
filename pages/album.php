@@ -8,9 +8,9 @@ $query = mysqli_query($sql, "SELECT DISTINCT artist.name FROM artist
                                    JOIN genre ON album.genre_id=genre.id
                                    WHERE genre.name='$category'");
 $rows = mysqli_fetch_all($query);
-$artistNames = array();
+$artistName = array();
 for ($i = 1; $i < sizeof($rows); $i++) {
-    $artistNames[$i] = $rows[$i];
+    $artistName[$i] = $rows[$i];
 }
 
 
@@ -35,19 +35,19 @@ if ($filterArtistName != null) {
     $query .= " AND artist.name LIKE '$filterArtistName'";
 }
 $query .= " ORDER BY album.release_date $dateSort";
-$results = mysqli_query($sql, $query);
+$result = mysqli_query($sql, $query);
 
-$albumTitles = array();
-$albumReleaseDates = array();
-$albumImagePaths = array();
-$albumArtists = array();
+$albumTitle = array();
+$albumReleaseDate = array();
+$albumImagePath = array();
+$albumArtist = array();
 
-$rows = mysqli_fetch_all($results);
+$rows = mysqli_fetch_all($result);
 foreach ($rows as $row) {
-    $albumTitles[] = $row[0];
-    $albumReleaseDates[] = $row[1];
-    $albumImagePaths[] = $row[2];
-    $albumArtists[] = $row[3];
+    $albumTitle[] = $row[0];
+    $albumReleaseDate[] = $row[1];
+    $albumImagePath[] = $row[2];
+    $albumArtist[] = $row[3];
 }
 
 ?>
@@ -87,8 +87,8 @@ foreach ($rows as $row) {
         <form action="#" method="post">
             <select name="artist">
                 <option value="" selected="selected">By Artist</option>
-                <?php for($i=1;$i<sizeof($artistNames);$i++){ ?>
-                    <option value="<?=implode( ", ", $artistNames[$i] )?>" ><?=implode( ", ", $artistNames[$i] )?></option>
+                <?php for($i=1; $i<sizeof($artistName); $i++){ ?>
+                    <option value="<?=implode( ", ", $artistName[$i] )?>" ><?=implode( ", ", $artistName[$i] )?></option>
                 <?php } ?>
             </select>
             <select name="dateSort">
@@ -102,13 +102,13 @@ foreach ($rows as $row) {
     </br></br>
     <?php
     echo "<div class='row'>";
-    for ($i = 0; $i < sizeof($albumTitles); $i++) {
+    for ($i = 0; $i < sizeof($albumTitle); $i++) {
         echo "<div class='col-md-6 mb-4'>
-                  <a href='songs.php?album=" . $albumTitles[$i] . "'>
-                      <img class='w-100' src='" . $albumImagePaths[$i] . "'/>
-                      <span class='albumTitle'>" . $albumTitles[$i] . "</span> <br/>
-                      <span class='albumReleaseDate'>" . $albumReleaseDates[$i] . "</span> <br/>
-                      <span class='artistName'>" . $albumArtists[$i] . "</span>
+                  <a href='songs.php?album=" . $albumTitle[$i] . "'>
+                      <img class='w-100' src='" . $albumImagePath[$i] . "'/>
+                      <span class='albumTitle'>" . $albumTitle[$i] . "</span> <br/>
+                      <span class='albumReleaseDate'>" . $albumReleaseDate[$i] . "</span> <br/>
+                      <span class='artistName'>" . $albumArtist[$i] . "</span>
                   </a>
               </div>";
     }
