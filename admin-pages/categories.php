@@ -159,6 +159,7 @@ for($i=0; $i<sizeof($row); $i++){
                     <div class="col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title">Categories</h3>
+                            <td> <button id="addButton" onclick="addFunction()">Add</button> </td>
                             <div class="table-responsive">
                                 <table class="table text-nowrap">
                                     <thead>
@@ -173,8 +174,8 @@ for($i=0; $i<sizeof($row); $i++){
                                         <tr>
                                             <td><?=$categoryId[$i]?></td>
                                             <td><?=$categoryName[$i]?></td>
-                                            <td> <button id="addButton" onclick="addFunction()">Add</button> </td>
-                                            <td><a href="deleteElement/deleteCategory.php?id=<?=$categoryId[$i]?>">Delete</a></td>
+                                            <td> <button id="editButton" onclick="window.location.href='editElement/editCategory.php?id=<?=$categoryId[$i]?>'")>Edit</button> </td>
+                                            <td> <button id="editButton" onclick="window.location.href='deleteElement/deleteCategory.php?id=<?=$categoryId[$i]?>'")>Delete</button> </td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>
