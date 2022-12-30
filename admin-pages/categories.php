@@ -159,7 +159,7 @@ for($i=0; $i<sizeof($row); $i++){
                     <div class="col-sm-12">
                         <div class="white-box">
                             <h3 class="box-title">Categories</h3>
-                            <td> <button id="addButton" onclick="addFunction()">Add</button> </td>
+                            <td> <button id="addButton">Add</button> </td>
                             <div class="table-responsive">
                                 <table class="table text-nowrap">
                                     <thead>
@@ -187,9 +187,6 @@ for($i=0; $i<sizeof($row); $i++){
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
     <script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../bootstrap/dist/js/bootstrap.bundle.min.js"></script>

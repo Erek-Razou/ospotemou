@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+require('../include/config.php');
+if (!isset($_SESSION['id'])) {
+    header("Location: ../pages/admin-login.php");
+}
 ?>
 
 <!DOCTYPE html>

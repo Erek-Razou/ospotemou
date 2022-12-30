@@ -2,6 +2,7 @@
 session_start();
 require('../include/config.php');
 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@ require('../include/config.php');
                     <form action="../include/loginLogic.php" method="post">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="text"  class="form-control" name="username" />
+                            <input type="text"   class="form-control" name="username" />
                             <label id="username" class="form-label" >Username</label>
                         </div>
 

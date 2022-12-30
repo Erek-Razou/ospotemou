@@ -1,16 +1,13 @@
 <?php
-require_once('../include/config.php');
-$query=mysqli_query($sql,"SELECT *
-                                FROM artist");
-$row=mysqli_fetch_all($query);
-$artistId=array();
-$artistName= array();
-$artistGender= array();
-for($i=0; $i<sizeof($row); $i++){
-    $artistId[$i]=$row[$i][0];
-    $artistName[$i]=$row[$i][1];
-    $artistGender[$i]=$row[$i][2];
-}
+require_once('../../include/config.php');
+$artistId=$_GET['id'];
+
+$query=mysqli_query($sql,'SELECT * FROM artist
+                                WHERE id='.$artistId.' ');
+$row=mysqli_fetch_row($query);
+$artistName=$row[1];
+$artistGender=$row[2][0];
+
 ?>
 
 <!DOCTYPE html>
@@ -26,12 +23,12 @@ for($i=0; $i<sizeof($row); $i++){
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Artists-Admin</title>
+    <title>Songs-Admin</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../plugins/images/favicon.png">
     <!-- Custom CSS -->
-    <link href="../css/style.min.css" rel="stylesheet">
+    <link href="../../css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -64,17 +61,17 @@ for($i=0; $i<sizeof($row); $i++){
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <a class="navbar-brand" href="dashboard.php">
+                <a class="navbar-brand" href="../dashboard.php">
                     <!-- Logo icon -->
                     <b class="logo-icon">
                         <!-- Dark Logo icon -->
-                        <img src="../plugins/images/logo-icon.png" alt="homepage" />
+                        <img src="../../plugins/images/logo-icon.png" alt="homepage" />
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->
                     <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../plugins/images/logo-text.png" alt="homepage" />
+                            <img src="../../plugins/images/logo-text.png" alt="homepage" />
                         </span>
                 </a>
                 <!-- ============================================================== -->
@@ -101,21 +98,21 @@ for($i=0; $i<sizeof($row); $i++){
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../index.php"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../../index.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span class="hide-menu">Home</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="categories.php"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../categories.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span class="hide-menu">Category</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="artists.php"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../artists.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span class="hide-menu">Artists</span>
@@ -140,7 +137,7 @@ for($i=0; $i<sizeof($row); $i++){
         <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Artists</h4>
+                    <h4 class="page-title">Edit <?=$artistName?></h4>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -158,30 +155,31 @@ for($i=0; $i<sizeof($row); $i++){
             <div class="row">
                 <div class="col-sm-12">
                     <div class="white-box">
-                        <h3 class="box-title">Artists</h3>
-                        <td> <button id="addButton">Add</button> </td>
                         <div class="table-responsive">
-                            <table class="table text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th class="border-top-0">#</th>
-                                    <th class="border-top-0">Artist Name</th>
-                                    <th class="border-top-0">Artist Gender</th>
-                                    <th class="border-top-0">Tools</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php for($i=0;$i<sizeof($artistId);$i++){ ?>
-                                    <tr>
-                                        <td><?=$artistId[$i]?></td>
-                                        <td><a href="albums.php?artist=<?=$artistName[$i]?>"> <?=$artistName[$i]?> </a></td>
-                                        <td><?=$artistGender[$i]?></td>
-                                        <td> <button id="editButton" onclick="window.location.href='editElement/editArtist.php?id=<?=$artistId[$i]?>'")>Edit</button> </td>
-                                        <td> <button id="editButton" onclick="window.location.href='deleteElement/deleteArtist.php?id=<?=$artistId[$i]?>'")>Delete</button> </td>
-                                    </tr>
-                                <?php } ?>
-                                </tbody>
-                            </table>
+                            <form action="#" method="post">
+                                <label for="artistName">Artist name </label>
+                                <input type="text" id="artistName" name="artistName"></br></br>
+                                <label for="artistGender">Artist gender </label>
+                                <input type="text" id="artistGender" name="artistGender"></br></br>
+                                <input type="submit" name="submit" value="submit">
+                            </form>
+                            <?php
+                            if(isset($_POST['submit'])){
+                                $artistName = $_POST['artistName'];
+                                $artistGender = $_POST['artistGender'];
+                                $up = mysqli_query($sql,'UPDATE artist SET name = "'.$artistName.'", gender="'.$artistGender.'" WHERE id ='.$artistId.' ');
+                                if($up)
+                                {
+                                    mysqli_close($sql);
+                                    header("location:../artists.php");
+                                    exit;
+                                }
+                                else
+                                {
+                                    echo "Error editing record";
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -192,21 +190,16 @@ for($i=0; $i<sizeof($row); $i++){
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
-<script src="../plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../plugins/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap tether Core JavaScript -->
-<script src="../bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/app-style-switcher.js"></script>
+<script src="../../bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../js/app-style-switcher.js"></script>
 <!--Wave Effects -->
-<script src="../js/waves.js"></script>
+<script src="../../js/waves.js"></script>
 <!--Menu sidebar -->
-<script src="../js/sidebarmenu.js"></script>
+<script src="../../js/sidebarmenu.js"></script>
 <!--Custom JavaScript -->
-<script src="../js/custom.js"></script>
-<script type="text/javascript">
-    document.getElementById("addButton").onclick = function () {
-        location.href = "addElement/addArtist.php";
-    };
-</script>
+<script src="../../js/custom.js"></script>
 </body>
 
 </html>

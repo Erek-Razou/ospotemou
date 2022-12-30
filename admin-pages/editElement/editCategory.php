@@ -172,7 +172,7 @@ $categoryName=$row;
                                 }
                                 else
                                 {
-                                    echo "Error deleting record";
+                                    echo "Error editing record";
                                 }
                             }
                             ?>
