@@ -11,18 +11,22 @@ $albumImage=$rows[0];
 $albumArtist=$rows[1];
 
 
-$query=mysqli_query($sql,"SELECT song.name, song.duration
+$query=mysqli_query($sql,"SELECT song.name, song.duration, song.youtube_id
                                 FROM song
                                 JOIN album ON album.id=song.album_id
                                 WHERE album.name='$album'");
 $rows=mysqli_fetch_all($query);
+
 $songNames=array();
 $songDurations=array();
+$songYoutubeIds=array();
 $totalDuration=0;
 
 for($i=0; $i<sizeof($rows); $i++){
     $songNames[$i]=$rows[$i][0];
     $songDurations[$i]= $rows[$i][1];
+    $songYoutubeIds[$i]= $rows[$i][2];
+
     $totalDuration += $songDurations[$i];
 }
 
@@ -61,43 +65,57 @@ $totalDurationAll=gmdate("H:i:s", $totalDuration);
 </div>
 
 <div class="container containerSongs">
-    <h1 align="center"><?=$album ?></h1>
+    <h1 align="center"><?= $album ?></h1>
     </br>  </br>
-  <div class="row">
-      <div class="col-sm-12 col-md-6 col-lg-6 ">
-          <img class="albumImage w-100" src="<?=$albumImage?>"/>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 ">
-          </br>  </br>
-          <h3> <?=$albumArtist?></h3>
-          <h6>Total Duration: <?=$totalDurationAll ?></h6>
-      </div>
-  </div>
-    </br>  </br>  </br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-sm-12 col-md-6 col-lg-6 ">
+            <img class="albumImage w-100" src="<?= $albumImage ?>"/>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 ">
+            </br>  </br>
+            <h3> <?= $albumArtist ?></h3>
+            <h6>Total Duration: <?= $totalDurationAll ?></h6>
+        </div>
+    </div>
+    </br>  </br>  </br>
+    <div class="row text-center">
+        <div class="col-3">
             <h3>Song</h3>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <h3>Duration</h3>
+        </div>
+        <div class="col-6">
+            <h3>Play</h3>
         </div>
     </div>
     <?php
-    for($i=0; $i<sizeof($songNames); $i++){?>
-    <div class="row songs">
-        <div class="col-6">
-            <p><?=$songNames[$i]?></p>
-        </div>
-        <div class="col-6">
-            <p><?=gmdate("H:i:s", $songDurations[$i])?></p>
-        </div>
-    </div>
-    <?php } ?>
-    </br>  </br>  </br>
+    for ($i = 0; $i < sizeof($songNames); $i++) {
+        echo "<div class='row songs'>";
+
+        echo "<div class='col-3'>
+                <p> $songNames[$i] </p>
+            </div>";
+
+        echo "<div class='col-3'>
+                  <p>" . gmdate("H:i:s", $songDurations[$i]) . "</p>
+              </div>";
+
+        echo "<div class='col-6'>";
+        if ($songYoutubeIds[$i] != null) {
+            echo "<iframe src='https://www.youtube.com/embed/$songYoutubeIds[$i]'
+                           class='w-100'
+                           allowfullscreen></iframe>";
+        } else {
+            echo "<p class='font-italic'> No video in database to play </p>";
+        }
+        echo "</div>";
+
+        echo "</div>";
+    }
+    ?>
 </div>
-
-
 
 </body>
 </html>
