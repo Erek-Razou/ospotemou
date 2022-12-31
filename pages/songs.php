@@ -22,7 +22,8 @@ $albumArtist = $row[0][7];
 
 $query = mysqli_query($sql, 'SELECT * FROM song
                                 JOIN album ON album.id=song.album_id
-                                WHERE album.name="' . $album . '"');
+                                WHERE album.name="' . $album . '"
+                                ORDER BY song.position');
 $row = mysqli_fetch_all($query);
 $songName = array();
 $songDuration = array();
