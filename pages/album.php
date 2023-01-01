@@ -9,8 +9,8 @@ $query = mysqli_query($sql, "SELECT DISTINCT artist.name FROM artist
                                    WHERE genre.name='$category'");
 $rows = mysqli_fetch_all($query);
 $artistName = array();
-for ($i = 1; $i < sizeof($rows); $i++) {
-    $artistName[$i] = $rows[$i];
+for ($i = 0; $i < sizeof($rows); $i++) {
+    $artistName[$i] = $rows[$i][0];
 }
 
 
@@ -87,9 +87,10 @@ foreach ($rows as $row) {
         <form action="#" method="post">
             <select name="artist">
                 <option value="" selected="selected">By Artist</option>
-                <?php for($i=1; $i<sizeof($artistName); $i++){ ?>
-                    <option value="<?=implode( ", ", $artistName[$i] )?>" ><?=implode( ", ", $artistName[$i] )?></option>
-                <?php } ?>
+                <?php
+                for ($i = 0; $i < sizeof($artistName); $i++) {
+                    echo "<option value='$artistName[$i]'> $artistName[$i] </option>";
+                } ?>
             </select>
             <select name="dateSort">
                 <option value="" selected="selected">By Release Date</option>
