@@ -1,5 +1,10 @@
 <?php
-require('../include/config.php');
+require_once('../include/config.php');
+
+if (!isset($_GET['category'])) {
+    header("Location: albums-error.php?code=1");
+    exit();
+}
 $category = $_GET['category'];
 
 // Query for the artist options in the filter's select
@@ -69,18 +74,17 @@ foreach ($rows as $row) {
         <div class="col-2"></div>
         <div class="col-2"></div>
         <div class="col-2">
-            <p class="items"><a href="../index.php#home">Home</a> </p>
+            <p class="items"><a href="../index.php#home">Home</a></p>
         </div>
         <div class="col-2">
-            <p class="items"><a href="../index.php#about">About</a> </p>
+            <p class="items"><a href="../index.php#about">About</a></p>
         </div>
     </div>
 </div>
 
 
-
 <div class="container albums">
-    <h1 align="center"><?=strtoupper($category)?> Albums</h1>
+    <h1 align="center"><?= strtoupper($category) ?> Albums</h1>
     <div class="filters">
         </br></br>
         <h3 align="left">Filters</h3>
@@ -103,15 +107,20 @@ foreach ($rows as $row) {
     </br></br>
     <?php
     echo "<div class='row'>";
-    for ($i = 0; $i < sizeof($albumTitle); $i++) {
-        echo "<div class='col-md-6 mb-4'>
-                  <a href='songs.php?album=" . $albumTitle[$i] . "'>
-                      <img class='w-100' src='" . $albumImagePath[$i] . "'/>
-                      <span class='albumTitle'>" . $albumTitle[$i] . "</span> <br/>
-                      <span class='albumReleaseDate'>" . $albumReleaseDate[$i] . "</span> <br/>
-                      <span class='artistName'>" . $albumArtist[$i] . "</span>
-                  </a>
-              </div>";
+    if (sizeof($albumTitle) == 0) {
+        echo "<h5 class='col-md-6'> Sorry, but there are no albums in our database for this genre yet
+                                    (or for this genre with the specified filters) </h5>";
+    } else {
+        for ($i = 0; $i < sizeof($albumTitle); $i++) {
+            echo "<div class='col-md-6 mb-4'>
+                      <a href='songs.php?album=" . $albumTitle[$i] . "'>
+                          <img class='w-100' src='" . $albumImagePath[$i] . "'/>
+                          <span class='albumTitle'>" . $albumTitle[$i] . "</span> <br/>
+                          <span class='albumReleaseDate'>" . $albumReleaseDate[$i] . "</span> <br/>
+                          <span class='artistName'>" . $albumArtist[$i] . "</span>
+                      </a>
+                  </div>";
+        }
     }
     echo "</div>";
     ?>
