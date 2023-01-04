@@ -48,7 +48,7 @@ if (isset($_GET['code'])) {
                           with no information supplied as to which genre to display.";
             break;
     }
-    echo " Please go back or to the <a href='/'>homepage</a>.</h5>";
+    echo " Please go back or to the <a href='../index.php'>homepage</a>.</h5>";
     ?>
 </div>
 

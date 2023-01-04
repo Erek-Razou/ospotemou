@@ -28,7 +28,7 @@ session_start();
                     <a class="nav-link" href="#about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin-pages/dashboard.php">Admin</a>
+                    <a class="nav-link" href="admin-pages/dashboard.php">Admin</a>
                 </li>
             </ul>
         </div>

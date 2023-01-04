@@ -59,7 +59,7 @@ if (isset($_GET['code'])) {
                           for an album name that doesn't exit in our database.";
                     break;
             }
-            echo " Please go back or to the <a href='/'>homepage</a>.</h5>";
+            echo " Please go back or to the <a href='../index.php'>homepage</a>.</h5>";
             ?>
         </div>
     </div>
