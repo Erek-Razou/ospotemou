@@ -146,7 +146,7 @@ for($i=0; $i<sizeof($row); $i++){
             <div class="page-breadcrumb bg-white">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Cateogires</h4>
+                        <h4 class="page-title">Categories</h4>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -180,8 +180,8 @@ for($i=0; $i<sizeof($row); $i++){
                                         <tr>
                                             <td><?=$categoryId[$i]?></td>
                                             <td><?=$categoryName[$i]?></td>
-                                            <td> <button id="editButton" onclick="window.location.href='editElement/editCategory.php?id=<?=$categoryId[$i]?>'")>Edit</button> </td>
-                                            <td> <button id="editButton" onclick="window.location.href='deleteElement/deleteCategory.php?id=<?=$categoryId[$i]?>'")>Delete</button> </td>
+                                            <td> <button id="editButton" onclick="window.location.href='editElement/editCategory.php?id=<?=$categoryId[$i]?>'">Edit</button> </td>
+                                            <td> <button id="editButton" onclick="window.location.href='deleteElement/deleteCategory.php?id=<?=$categoryId[$i]?>'">Delete</button> </td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>

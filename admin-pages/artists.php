@@ -117,7 +117,7 @@ for($i=0; $i<sizeof($row); $i++){
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="categories.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
-                            <span class="hide-menu">Category</span>
+                            <span class="hide-menu">Categories</span>
                         </a>
                     </li>
                     <li class="sidebar-item">

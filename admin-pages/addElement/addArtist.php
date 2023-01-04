@@ -161,18 +161,27 @@ require_once('../../include/config.php');
                                 <label for="artistName">Artist name </label>
                                 <input type="text" id="artistName" name="artistName"></br></br>
                                 <label for="artistGender">Artist gender </label>
-                                <input type="text" id="artistGender" name="artistGender"></br></br>
+                                <select id="artistGender" name="artistGender">
+                                    <option value="group" selected> Group</option>
+                                    <option value="male"> Male</option>
+                                    <option value="female"> Female</option>
+                                </select></br></br>
                                 <input type="submit" name="submit" value="submit">
                             </form>
                             <?php
-                            if(isset($_POST['submit'])){
+                            if (isset($_POST['submit'])) {
                                 $artistName = $_POST['artistName'];
                                 $artistGender = $_POST['artistGender'];
-                                $query=mysqli_query($sql,"INSERT INTO artist (name, gender) 
+                                $query = mysqli_query($sql, "INSERT INTO artist (name, gender) 
                                     VALUES ( '$artistName','$artistGender')");
                                 echo "</br></br><div align='center' class='result'>";
-                                echo "<h4>Εγινε η εισαγωγη με <b>επιτυχια!</b></h4>";
+                                if ($query) {
+                                    echo "<h4>Έγινε η εισαγωγή με <b>επιτυχία!</b></h4>";
+                                } else {
+                                    echo "<h4 class='text-danger'> Υπήρχε σφάλμα στην εισαγωγή </h4>";
+                                }
                                 echo "</div>";
+                                mysqli_close($sql);
                             }
                             ?>
                         </div>

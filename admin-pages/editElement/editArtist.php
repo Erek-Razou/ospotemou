@@ -9,10 +9,10 @@ require_once('../../include/config.php');
 $artistId=$_GET['id'];
 
 $query=mysqli_query($sql,'SELECT * FROM artist
-                                WHERE id='.$artistId.' ');
+                                WHERE id='.$artistId);
 $row=mysqli_fetch_row($query);
 $artistName=$row[1];
-$artistGender=$row[2][0];
+$artistGender=$row[2];
 
 ?>
 
@@ -166,23 +166,27 @@ $artistGender=$row[2][0];
                                 <label for="artistName">Artist name </label>
                                 <input type="text" id="artistName" name="artistName"></br></br>
                                 <label for="artistGender">Artist gender </label>
-                                <input type="text" id="artistGender" name="artistGender"></br></br>
+                                <select id="artistGender" name="artistGender">
+                                    <option value="group" selected> Group</option>
+                                    <option value="male"> Male</option>
+                                    <option value="female"> Female</option>
+                                </select></br></br>
                                 <input type="submit" name="submit" value="submit">
                             </form>
                             <?php
-                            if(isset($_POST['submit'])){
+                            if (isset($_POST['submit'])) {
                                 $artistName = $_POST['artistName'];
                                 $artistGender = $_POST['artistGender'];
-                                $up = mysqli_query($sql,'UPDATE artist SET name = "'.$artistName.'", gender="'.$artistGender.'" WHERE id ='.$artistId.' ');
-                                if($up)
-                                {
+                                $up = mysqli_query($sql, 'UPDATE artist SET name = "' . $artistName . '", gender="' . $artistGender . '" WHERE id =' . $artistId . ' ');
+                                if ($up) {
                                     mysqli_close($sql);
-                                    header("location:../artists.php");
-                                    exit;
-                                }
-                                else
-                                {
-                                    echo "Error editing record";
+                                    echo "</br></br><div align='center' class='result'>
+                                              <h4>Έγινε η αλλαγή με <b>επιτυχία!</b></h4>
+                                          </div>";
+                                } else {
+                                    echo "</br></br><div align='center' class='result'>
+                                              <h4 class='text-danger'> Υπήρχε σφάλμα στην επεξεργασία </h4>
+                                          </div>";
                                 }
                             }
                             ?>

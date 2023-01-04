@@ -8,23 +8,27 @@ if (!isset($_SESSION['id'])) {
 require_once('../include/config.php');
 $artist=$_GET['artist'];
 
-$query=mysqli_query($sql,'SELECT *
+$query=mysqli_query($sql,'SELECT album.id, album.genre_id, album.name, album.release_date, album.image_path,
+                                       genre.name
                                 FROM album
                                 JOIN artist ON artist.id=album.artist_id
                                 JOIN genre ON genre.id=album.genre_id
-                                WHERE artist.name="'.$artist.'"');
+                                WHERE artist.name="'.$artist.'"
+                                ORDER BY album.release_date DESC, album.name ASC');
 $row=mysqli_fetch_all($query);
 $albumId=array();
 $albumName= array();
 $albumGenre= array();
 $albumReleaseDate= array();
 $albumImagePath= array();
+$genreName = array();
 for($i=0; $i<sizeof($row); $i++){
     $albumId[$i]=$row[$i][0];
-    $albumGenre[$i]=$row[$i][2];
-    $albumName[$i]=$row[$i][3];
-    $albumReleaseDate[$i]=$row[$i][4];
-    $albumImagePath[$i]=$row[$i][5];
+    $albumGenre[$i]=$row[$i][1];
+    $albumName[$i]=$row[$i][2];
+    $albumReleaseDate[$i]=$row[$i][3];
+    $albumImagePath[$i]=$row[$i][4];
+    $genreName[$albumGenre[$i]] = $row[$i][5];
 }
 ?>
 
@@ -126,7 +130,7 @@ for($i=0; $i<sizeof($row); $i++){
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="categories.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
-                            <span class="hide-menu">Category</span>
+                            <span class="hide-menu">Categories</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -174,6 +178,7 @@ for($i=0; $i<sizeof($row); $i++){
                 <div class="col-sm-12">
                     <div class="white-box">
                         <h3 class="box-title">Albums</h3>
+                        <button id="addButton" onclick="window.location.href='addElement/addAlbum.php?artist=<?=$artist?>'">Add</button>
                         <div class="table-responsive">
                             <table class="table text-nowrap">
                                 <thead>
@@ -183,16 +188,19 @@ for($i=0; $i<sizeof($row); $i++){
                                     <th class="border-top-0"> Name</th>
                                     <th class="border-top-0"> Release Date</th>
                                     <th class="border-top-0"> Image Path</th>
+                                    <th class="border-top-0"> Tools</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php for($i=0;$i<sizeof($albumId);$i++){ ?>
                                     <tr>
                                         <td><?=$albumId[$i]?></td>
-                                        <td><?=$albumGenre[$i]?></td>
+                                        <td>(<?=$albumGenre[$i]?>) <?= $genreName[$albumGenre[$i]]?></td>
                                         <td><a href="songs.php?album=<?=$albumName[$i]?>"> <?=$albumName[$i]?> </a></td>
                                         <td><?=$albumReleaseDate[$i]?></td>
                                         <td><?=$albumImagePath[$i]?></td>
+                                        <td> <button id="editButton" onclick="window.location.href='editElement/editAlbum.php?id=<?=$albumId[$i]?>'">Edit</button> </td>
+                                        <td> <button id="deleteButton" onclick="window.location.href='deleteElement/deleteAlbum.php?id=<?=$albumId[$i]?>'">Delete</button> </td>
                                     </tr>
                                 <?php } ?>
                                 </tbody>

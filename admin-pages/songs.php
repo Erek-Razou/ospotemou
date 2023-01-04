@@ -11,7 +11,8 @@ $album=$_GET['album'];
 $query=mysqli_query($sql,'SELECT *
                                 FROM song
                                 JOIN album ON album.id=song.album_id
-                                WHERE album.name="'.$album.'"');
+                                WHERE album.name="'.$album.'"
+                                ORDER BY song.position');
 $row=mysqli_fetch_all($query);
 $songId=array();
 $songName= array();
@@ -25,6 +26,12 @@ for($i=0; $i<sizeof($row); $i++){
     $songPosition[$i]=$row[$i][4];
     $songYoutubeId[$i]=$row[$i][5];
 }
+
+$query = mysqli_query($sql,"SELECT artist.name
+                                  FROM album
+                                  JOIN artist ON album.artist_id = artist.id
+                                  WHERE album.name='$album'");
+$artistName = mysqli_fetch_row($query)[0];
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +132,7 @@ for($i=0; $i<sizeof($row); $i++){
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="categories.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
-                            <span class="hide-menu">Category</span>
+                            <span class="hide-menu">Categories</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -133,6 +140,14 @@ for($i=0; $i<sizeof($row); $i++){
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span class="hide-menu">Artists</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                           href="albums.php?artist=<?= $artistName ?>"
+                           aria-expanded="false">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span class="hide-menu">Albums of <?= $artistName ?></span>
                         </a>
                     </li>
                 </ul>
@@ -154,7 +169,7 @@ for($i=0; $i<sizeof($row); $i++){
         <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Songs Included in <?=$album?></h4>
+                    <h4 class="page-title">Songs included in <?=$album?></h4>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -172,7 +187,8 @@ for($i=0; $i<sizeof($row); $i++){
             <div class="row">
                 <div class="col-sm-12">
                     <div class="white-box">
-                        <h3 class="box-title">Albums</h3>
+                        <h3 class="box-title">Songs</h3>
+                        <button id="addButton" onclick="window.location.href='addElement/addSong.php?album=<?=$album?>'">Add</button>
                         <div class="table-responsive">
                             <table class="table text-nowrap">
                                 <thead>
@@ -182,6 +198,7 @@ for($i=0; $i<sizeof($row); $i++){
                                     <th class="border-top-0"> Duration</th>
                                     <th class="border-top-0"> Position</th>
                                     <th class="border-top-0"> Youtube Id</th>
+                                    <th class="border-top-0"> Tools</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -192,6 +209,8 @@ for($i=0; $i<sizeof($row); $i++){
                                         <td><?=gmdate("H:i:s", $songDuration[$i])?></td>
                                         <td><?=$songPosition[$i]?></td>
                                         <td><?=$songYoutubeId[$i]?></td>
+                                        <td> <button id="editButton" onclick="window.location.href='editElement/editSong.php?id=<?=$songId[$i]?>'">Edit</button> </td>
+                                        <td> <button id="deleteButton" onclick="window.location.href='deleteElement/deleteSong.php?id=<?=$songId[$i]?>'">Delete</button> </td>
                                     </tr>
                                 <?php } ?>
                                 </tbody>

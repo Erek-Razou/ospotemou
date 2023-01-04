@@ -6,8 +6,28 @@ if (!isset($_SESSION['id'])) {
 }
 
 require_once('../../include/config.php');
+$artist = $_GET['artist'];
 
+$artistId = null;
+$result = mysqli_query($sql, "SELECT artist.id
+                                    FROM artist
+                                    WHERE artist.name = '$artist'");
+if ($result) {
+    $artistId = mysqli_fetch_row($result)[0];
+} else {
+    echo "No such artist ($artist)";
+    exit();
+}
 
+$genreId = array();
+$genreName = array();
+$result = mysqli_query($sql, "SELECT genre.id, genre.name
+                                    FROM genre");
+$rows = mysqli_fetch_all($result);
+foreach ($rows as $row) {
+    $genreId[] = $row[0];
+    $genreName[] = $row[1];
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +43,8 @@ require_once('../../include/config.php');
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Add Category</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
+    <title>Add Album</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/"/>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../plugins/images/favicon.png">
     <!-- Custom CSS -->
@@ -65,13 +85,13 @@ require_once('../../include/config.php');
                     <!-- Logo icon -->
                     <b class="logo-icon">
                         <!-- Dark Logo icon -->
-                        <img src="../../plugins/images/logo-icon.png" alt="homepage" />
+                        <img src="../../plugins/images/logo-icon.png" alt="homepage"/>
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->
                     <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../../plugins/images/logo-text.png" alt="homepage" />
+                            <img src="../../plugins/images/logo-text.png" alt="homepage"/>
                         </span>
                 </a>
                 <!-- ============================================================== -->
@@ -118,6 +138,14 @@ require_once('../../include/config.php');
                             <span class="hide-menu">Artists</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                           href="../albums.php?artist=<?= $artist ?>"
+                           aria-expanded="false">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span class="hide-menu">Albums of <?= $artist ?></span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
@@ -158,15 +186,31 @@ require_once('../../include/config.php');
                         <h3 class="box-title">Add</h3>
                         <div class="table-responsive">
                             <form action="#" method="post">
-                                <label for="categoryName">Category name </label>
-                                <input type="text" id="categoryName" name="categoryName"></br></br>
-                                <input type="submit" name="submit" value="submit">
+                                <label for="albumName">Album name </label>
+                                <input type="text" id="albumName" name="albumName"/>
+                                <label for="genreId"> Genre </label>
+                                <select id="genreId" name="genreId">
+                                    <?php
+                                    for ($i = 0; $i < sizeof($genreId); $i++) {
+                                        echo "<option value='$genreId[$i]'> $genreName[$i] </option>";
+                                    }
+                                    ?>
+                                </select>
+                                <label for="releaseDate"> Release Date </label>
+                                <input type="number" id="releaseDate" name="releaseDate"/>
+                                <label for="imagePath"> Image Path </label>
+                                <input type="text" id="imagePath" name="imagePath"/>
+                                <input type="submit" name="submit" value="submit"/>
                             </form>
                             <?php
                             if (isset($_POST['submit'])) {
-                                $categoryName = $_POST['categoryName'];
-                                $query = mysqli_query($sql, "INSERT INTO genre (name) 
-                                                                    VALUES ( '$categoryName')");
+                                $genreId = $_POST['genreId'];
+                                $albumName = $_POST['albumName'];
+                                $releaseDate = $_POST['releaseDate'];
+                                $imagePath = $_POST['imagePath'];
+
+                                $query = mysqli_query($sql, "INSERT INTO album (artist_id, genre_id, name, release_date, image_path) 
+                                                                   VALUES ($artistId, $genreId, '$albumName', $releaseDate, '$imagePath')");
                                 echo "</br></br><div align='center' class='result'>";
                                 if ($query) {
                                     echo "<h4>Έγινε η εισαγωγή με <b>επιτυχία!</b></h4>";

@@ -6,8 +6,24 @@ if (!isset($_SESSION['id'])) {
 }
 
 require_once('../../include/config.php');
+$albumName = $_GET['album'];
 
-
+$albumId = null;
+$artistId = null;
+$artistName = null;
+$result = mysqli_query($sql, "SELECT album.id, artist.id, artist.name
+                                    FROM album
+                                    JOIN artist ON album.artist_id = artist.id
+                                    WHERE album.name = '$albumName'");
+if ($result) {
+    $row = mysqli_fetch_row($result);
+    $albumId = $row[0];
+    $artistId = $row[1];
+    $artistName = $row[2];
+} else {
+    echo "No such artist ($artist)";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +39,8 @@ require_once('../../include/config.php');
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Add Category</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
+    <title>Add Album</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/"/>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../plugins/images/favicon.png">
     <!-- Custom CSS -->
@@ -65,13 +81,13 @@ require_once('../../include/config.php');
                     <!-- Logo icon -->
                     <b class="logo-icon">
                         <!-- Dark Logo icon -->
-                        <img src="../../plugins/images/logo-icon.png" alt="homepage" />
+                        <img src="../../plugins/images/logo-icon.png" alt="homepage"/>
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->
                     <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../../plugins/images/logo-text.png" alt="homepage" />
+                            <img src="../../plugins/images/logo-text.png" alt="homepage"/>
                         </span>
                 </a>
                 <!-- ============================================================== -->
@@ -118,6 +134,22 @@ require_once('../../include/config.php');
                             <span class="hide-menu">Artists</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                           href="../albums.php?artist=<?= $artistName ?>"
+                           aria-expanded="false">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span class="hide-menu">Albums of <?= $artistName ?></span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                           href="../songs.php?album=<?= $albumName ?>"
+                           aria-expanded="false">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span class="hide-menu">Songs in <?= $albumName ?></span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
@@ -158,15 +190,26 @@ require_once('../../include/config.php');
                         <h3 class="box-title">Add</h3>
                         <div class="table-responsive">
                             <form action="#" method="post">
-                                <label for="categoryName">Category name </label>
-                                <input type="text" id="categoryName" name="categoryName"></br></br>
-                                <input type="submit" name="submit" value="submit">
+                                <label for="songName">Song name</label>
+                                <input type="text" id="songName" name="songName"/>
+                                <label for="songDuration">Duration in seconds </label>
+                                <input type="number" id="songDuration" name="songDuration"/>
+                                <label for="songPosition">Position </label>
+                                <input type="number" id="songPosition" name="songPosition"/>
+                                <label for="songYoutubeId">Youtube ID</label>
+                                <input type="text" id="songYoutubeId" name="songYoutubeId"/>
+                                <input type="submit" name="submit" value="submit"/>
                             </form>
                             <?php
                             if (isset($_POST['submit'])) {
-                                $categoryName = $_POST['categoryName'];
-                                $query = mysqli_query($sql, "INSERT INTO genre (name) 
-                                                                    VALUES ( '$categoryName')");
+                                $songName = $_POST['songName'];
+                                $songDuration = $_POST['songDuration'];
+                                $songPosition = $_POST['songPosition'];
+                                $songYoutubeId = $_POST['songYoutubeId'];
+
+                                $query = mysqli_query($sql, "INSERT INTO song (album_id, name, duration, position, youtube_id)
+                                                                   VALUES ($albumId, '$songName', $songDuration, $songPosition, '$songYoutubeId')");
+
                                 echo "</br></br><div align='center' class='result'>";
                                 if ($query) {
                                     echo "<h4>Έγινε η εισαγωγή με <b>επιτυχία!</b></h4>";

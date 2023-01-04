@@ -6,12 +6,13 @@ if (!isset($_SESSION['id'])) {
 }
 
 require_once('../../include/config.php');
+
 $categoryId=$_GET['id'];
 
 $query=mysqli_query($sql,'SELECT name FROM genre
                                 WHERE id='.$categoryId.' ');
 $row=mysqli_fetch_row($query);
-$categoryName=$row;
+$categoryName=$row[0];
 
 ?>
 
@@ -113,7 +114,7 @@ $categoryName=$row;
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../categories.php"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
-                            <span class="hide-menu">Category</span>
+                            <span class="hide-menu">Categories</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -142,7 +143,7 @@ $categoryName=$row;
         <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Edit <?=implode( ", ", $categoryName )?></h4>
+                    <h4 class="page-title">Edit <?= $categoryName ?></h4>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -167,19 +168,17 @@ $categoryName=$row;
                                 <input type="submit" name="submit" value="submit">
                             </form>
                             <?php
-                            if(isset($_POST['submit'])){
+                            if (isset($_POST['submit'])) {
                                 $categoryName = $_POST['categoryName'];
-                                $up = mysqli_query($sql,'UPDATE genre SET name = "'.$categoryName.'" WHERE id ='.$categoryId.' ');
-                                if($up)
-                                {
-                                    mysqli_close($sql);
-                                    header("location:../categories.php");
-                                    exit;
+                                $up = mysqli_query($sql, 'UPDATE genre SET name = "' . $categoryName . '" WHERE id =' . $categoryId . ' ');
+                                echo "</br></br><div align='center' class='result'>";
+                                if ($up) {
+                                    echo "<h4>Έγινε η αλλαγή με <b>επιτυχία!</b></h4>";
+                                } else {
+                                    echo "<h4 class='text-danger'> Υπήρχε σφάλμα στην αλλαγή </h4>";
                                 }
-                                else
-                                {
-                                    echo "Error editing record";
-                                }
+                                echo "</div>";
+                                mysqli_close($sql);
                             }
                             ?>
                         </div>

@@ -6,8 +6,35 @@ if (!isset($_SESSION['id'])) {
 }
 
 require_once('../../include/config.php');
+$albumId = $_GET['id'];
 
+$query = mysqli_query($sql, "SELECT album.artist_id, album.genre_id, album.name, album.release_date, album.image_path
+                                  FROM album
+                                  WHERE album.id = $albumId");
+$row = mysqli_fetch_row($query);
+$albumArtistId = $row[0];
+$albumGenreId = $row[1];
+$albumName = $row[2];
+$albumReleaseDate = $row[3];
+$albumImagePath = $row[4];
 
+$artist = array();
+$query = mysqli_query($sql, "SELECT artist.id, artist.name
+                                   FROM artist
+                                   ORDER BY artist.name");
+$rows = mysqli_fetch_all($query);
+foreach ($rows as $row) {
+    $artist[$row[0]] = $row[1];
+}
+
+$genre = array();
+$query = mysqli_query($sql, "SELECT genre.id, genre.name
+                                   FROM genre
+                                   ORDER BY genre.name");
+$rows = mysqli_fetch_all($query);
+foreach ($rows as $row) {
+    $genre[$row[0]] = $row[1];
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +50,8 @@ require_once('../../include/config.php');
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Add Category</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
+    <title>Edit-<?= $albumName ?></title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/"/>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../plugins/images/favicon.png">
     <!-- Custom CSS -->
@@ -65,13 +92,13 @@ require_once('../../include/config.php');
                     <!-- Logo icon -->
                     <b class="logo-icon">
                         <!-- Dark Logo icon -->
-                        <img src="../../plugins/images/logo-icon.png" alt="homepage" />
+                        <img src="../../plugins/images/logo-icon.png" alt="homepage"/>
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->
                     <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../../plugins/images/logo-text.png" alt="homepage" />
+                            <img src="../../plugins/images/logo-text.png" alt="homepage"/>
                         </span>
                 </a>
                 <!-- ============================================================== -->
@@ -118,6 +145,14 @@ require_once('../../include/config.php');
                             <span class="hide-menu">Artists</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                           href="../albums.php?artist=<?= $artist[$albumArtistId] ?>"
+                           aria-expanded="false">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span class="hide-menu">Albums of <?= $artist[$albumArtistId] ?></span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- End Sidebar navigation -->
@@ -137,7 +172,7 @@ require_once('../../include/config.php');
         <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Add</h4>
+                    <h4 class="page-title">Edit <?= $albumName ?></h4>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -155,25 +190,62 @@ require_once('../../include/config.php');
             <div class="row">
                 <div class="col-sm-12">
                     <div class="white-box">
-                        <h3 class="box-title">Add</h3>
                         <div class="table-responsive">
                             <form action="#" method="post">
-                                <label for="categoryName">Category name </label>
-                                <input type="text" id="categoryName" name="categoryName"></br></br>
-                                <input type="submit" name="submit" value="submit">
+                                <label for="albumName">Album name </label>
+                                <input type="text" id="albumName" name="albumName" value="<?=$albumName?>"/>
+                                <label for="artistId"> Artist </label>
+                                <select id="artistId" name="artistId">
+                                    <?php
+                                    foreach ($artist as $id => $name) {
+                                        echo "<option value='$id'";
+                                        if ($id == $albumArtistId) {
+                                            echo " selected";
+                                        }
+                                        echo "> $name </option>";
+                                    }
+                                    ?>
+                                </select>
+                                <label for="genreId"> Genre </label>
+                                <select id="genreId" name="genreId">
+                                    <?php
+                                    foreach ($genre as $id => $name) {
+                                        echo "<option value='$id'";
+                                        if ($id == $albumGenreId) {
+                                            echo " selected";
+                                        }
+                                        echo "> $name </option>";
+                                    }
+                                    ?>
+                                </select>
+                                <label for="releaseDate"> Release Date </label>
+                                <input type="number" id="releaseDate" name="releaseDate" value="<?= $albumReleaseDate?>"/>
+                                <label for="imagePath"> Image Path </label>
+                                <input type="text" id="imagePath" name="imagePath" value="<?=$albumImagePath?>"/>
+                                <input type="submit" name="submit" value="submit"/>
                             </form>
                             <?php
                             if (isset($_POST['submit'])) {
-                                $categoryName = $_POST['categoryName'];
-                                $query = mysqli_query($sql, "INSERT INTO genre (name) 
-                                                                    VALUES ( '$categoryName')");
-                                echo "</br></br><div align='center' class='result'>";
-                                if ($query) {
-                                    echo "<h4>Έγινε η εισαγωγή με <b>επιτυχία!</b></h4>";
-                                } else {
-                                    echo "<h4 class='text-danger'> Υπήρχε σφάλμα στην εισαγωγή </h4>";
+                                $albumName = $_POST['albumName'];
+                                $artistId = $_POST['artistId'];
+                                $albumGenreId = $_POST['genreId'];
+                                $albumReleaseDate = $_POST['releaseDate'];
+                                $albumImagePath = $_POST['imagePath'];
+
+                                $result = mysqli_query($sql, "UPDATE album
+                                                                    SET artist_id=$artistId, genre_id=$albumGenreId, name='$albumName', release_date=$albumReleaseDate, image_path='$albumImagePath'
+                                                                    WHERE id=$albumId");
+                                if ($result) {
+                                    mysqli_close($sql);
+                                    echo "</br></br><div align='center' class='result'>
+                                              <h4>Έγινε η αλλαγή με <b>επιτυχία!</b></h4>
+                                          </div>";
                                 }
-                                echo "</div>";
+                                else {
+                                    echo "</br></br><div align='center' class='result'>
+                                              <h4 class='text-danger'> Υπήρχε σφάλμα στην επεξεργασία </h4>
+                                          </div>";
+                                }
                             }
                             ?>
                         </div>
