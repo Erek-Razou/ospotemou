@@ -37,8 +37,16 @@ require('../include/config.php');
                             <label id="password" class="form-label" >Password</label>
                         </div>
 
+                        <?php
+                        if (isset($_GET['error'])) {
+                            echo "<div class='form-outline font-italic text-danger mb-4'>
+                                      <p> Τα στοιχεία που εισήχθησαν ήταν λάθος </p>
+                                  </div>";
+                        }
+                        ?>
+
                         <!-- Submit button -->
-                        <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
                     </form>
 
                 </div>
