@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("Location: /pages/admin-login.php");
+    exit();
+}
+
 require_once('../include/config.php');
 $album=$_GET['album'];
 
