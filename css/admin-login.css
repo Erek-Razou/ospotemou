@@ -3,6 +3,14 @@
     border-top-right-radius: 0.5rem;
 }
 
+.login-container{
+    text-align: center;
+}
+.btn{
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
 @media (min-width: 992px) {
     .rounded-tr-lg-0 {
         border-top-right-radius: 0;
